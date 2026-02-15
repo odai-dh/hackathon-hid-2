@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 import Link from "next/link";
-import { Opportunity, Account, ExtractedInsights } from "@/lib/types";
+import { Opportunity, Account, Contact, ExtractedInsights } from "@/lib/types";
 
 export default function NewMeetingPage() {
   const params = useParams();
@@ -12,9 +12,11 @@ export default function NewMeetingPage() {
 
   const [opportunity, setOpportunity] = useState<Opportunity | null>(null);
   const [account, setAccount] = useState<Account | null>(null);
+  const [contacts, setContacts] = useState<Contact[]>([]);
 
   const [title, setTitle] = useState("");
-  const [participants, setParticipants] = useState("Alex Berg, ");
+  const [meetingType, setMeetingType] = useState("Discovery call");
+  const [participants, setParticipants] = useState("Alex (HID), ");
   const [transcript, setTranscript] = useState("");
   const [date, setDate] = useState(new Date().toISOString().split("T")[0]);
 
@@ -22,6 +24,14 @@ export default function NewMeetingPage() {
   const [insights, setInsights] = useState<ExtractedInsights | null>(null);
   const [saving, setSaving] = useState(false);
   const [step, setStep] = useState<"input" | "review" | "saved">("input");
+
+  const meetingTypes = [
+    "Discovery call", "Demo", "Technical deep dive", "On-site workshop",
+    "Pricing discussion", "Requirements review", "Competitive mention",
+    "Follow-up email", "Next steps call", "Compliance Q&A",
+    "Solution workshop", "Pilot planning", "Security review",
+    "Scope discussion", "Internal note",
+  ];
 
   useEffect(() => {
     fetch("/api/opportunities").then(r => r.json()).then((opps: Opportunity[]) => {
@@ -31,6 +41,7 @@ export default function NewMeetingPage() {
         fetch("/api/accounts").then(r => r.json()).then((accs: Account[]) => {
           setAccount(accs.find(a => a.id === opp.accountId) || null);
         });
+        fetch(`/api/contacts?accountId=${opp.accountId}`).then(r => r.json()).then(setContacts);
       }
     });
   }, [opportunityId]);
@@ -63,10 +74,14 @@ export default function NewMeetingPage() {
         body: JSON.stringify({
           opportunityId,
           accountId: opportunity?.accountId,
-          title,
+          title: title || meetingType,
+          type: meetingType,
           date,
           participants: participants.split(",").map(p => p.trim()).filter(Boolean),
+          participantContactIds: [],
           transcriptRaw: transcript,
+          outcome: "",
+          tags: [],
           insights,
         }),
       });
@@ -76,6 +91,12 @@ export default function NewMeetingPage() {
       console.error(err);
     }
     setSaving(false);
+  };
+
+  const addContactToParticipants = (contactName: string) => {
+    if (!participants.includes(contactName)) {
+      setParticipants(prev => prev.endsWith(", ") ? prev + contactName + ", " : prev + ", " + contactName + ", ");
+    }
   };
 
   const updateInsightField = (
@@ -131,16 +152,28 @@ export default function NewMeetingPage() {
 
       {step === "input" && (
         <div className="bg-white border border-slate-200 rounded-xl p-6 space-y-6">
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-3 gap-4">
             <div>
               <label className="block text-sm font-medium text-slate-700 mb-1">Meeting Title</label>
               <input
                 type="text"
                 value={title}
                 onChange={e => setTitle(e.target.value)}
-                placeholder="e.g., Discovery Call - Nordea"
+                placeholder="e.g., Evaluation Call"
                 className="w-full border border-slate-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
               />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-slate-700 mb-1">Type</label>
+              <select
+                value={meetingType}
+                onChange={e => setMeetingType(e.target.value)}
+                className="w-full border border-slate-300 rounded-lg px-3 py-2 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+              >
+                {meetingTypes.map(t => (
+                  <option key={t} value={t}>{t}</option>
+                ))}
+              </select>
             </div>
             <div>
               <label className="block text-sm font-medium text-slate-700 mb-1">Date</label>
@@ -154,14 +187,28 @@ export default function NewMeetingPage() {
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-slate-700 mb-1">Participants (comma-separated)</label>
+            <label className="block text-sm font-medium text-slate-700 mb-1">Participants</label>
             <input
               type="text"
               value={participants}
               onChange={e => setParticipants(e.target.value)}
-              placeholder="Alex Berg, Johan Lindqvist"
-              className="w-full border border-slate-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+              placeholder="Alex (HID), Elin Sundberg"
+              className="w-full border border-slate-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 mb-2"
             />
+            {contacts.length > 0 && (
+              <div className="flex flex-wrap gap-1">
+                <span className="text-xs text-slate-400">Quick add:</span>
+                {contacts.map(c => (
+                  <button
+                    key={c.id}
+                    onClick={() => addContactToParticipants(c.name)}
+                    className="text-xs px-2 py-0.5 bg-blue-50 text-blue-600 rounded hover:bg-blue-100 transition-colors"
+                  >
+                    + {c.name}
+                  </button>
+                ))}
+              </div>
+            )}
           </div>
 
           <div>
@@ -170,7 +217,7 @@ export default function NewMeetingPage() {
               value={transcript}
               onChange={e => setTranscript(e.target.value)}
               rows={16}
-              placeholder="Paste your meeting transcript or notes here...&#10;&#10;Alex: Thanks for joining today.&#10;Customer: Sure, let me walk you through our current process..."
+              placeholder="Paste your meeting transcript or notes here...&#10;&#10;Alex (HID): Thanks for joining today.&#10;Customer: Sure, let me walk you through our current process..."
               className="w-full border border-slate-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 font-mono"
             />
           </div>
@@ -178,7 +225,7 @@ export default function NewMeetingPage() {
           <div className="flex justify-end">
             <button
               onClick={handleExtract}
-              disabled={!title || !transcript || extracting}
+              disabled={!transcript || extracting}
               className="px-6 py-2.5 bg-blue-600 text-white rounded-lg text-sm font-medium hover:bg-blue-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
             >
               {extracting ? (
@@ -210,7 +257,6 @@ export default function NewMeetingPage() {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {/* Pain Points */}
             <div className="bg-white border border-slate-200 rounded-xl p-6">
               <h3 className="font-semibold text-red-700 mb-3 flex items-center gap-2">
                 <span className="w-2 h-2 bg-red-500 rounded-full" />
@@ -230,7 +276,6 @@ export default function NewMeetingPage() {
               </div>
             </div>
 
-            {/* Feature Requests */}
             <div className="bg-white border border-slate-200 rounded-xl p-6">
               <h3 className="font-semibold text-green-700 mb-3 flex items-center gap-2">
                 <span className="w-2 h-2 bg-green-500 rounded-full" />
@@ -250,7 +295,6 @@ export default function NewMeetingPage() {
               </div>
             </div>
 
-            {/* Objections */}
             <div className="bg-white border border-slate-200 rounded-xl p-6">
               <h3 className="font-semibold text-amber-700 mb-3 flex items-center gap-2">
                 <span className="w-2 h-2 bg-amber-500 rounded-full" />
@@ -274,7 +318,6 @@ export default function NewMeetingPage() {
               </div>
             </div>
 
-            {/* Competitors */}
             <div className="bg-white border border-slate-200 rounded-xl p-6">
               <h3 className="font-semibold text-purple-700 mb-3 flex items-center gap-2">
                 <span className="w-2 h-2 bg-purple-500 rounded-full" />
@@ -306,7 +349,6 @@ export default function NewMeetingPage() {
             </div>
           </div>
 
-          {/* Action Items */}
           <div className="bg-white border border-slate-200 rounded-xl p-6">
             <h3 className="font-semibold text-slate-900 mb-3">Action Items ({insights.actionItems.length})</h3>
             <div className="space-y-2">
@@ -385,7 +427,7 @@ export default function NewMeetingPage() {
                 setTitle("");
                 setTranscript("");
                 setInsights(null);
-                setParticipants("Alex Berg, ");
+                setParticipants("Alex (HID), ");
                 setDate(new Date().toISOString().split("T")[0]);
               }}
               className="px-4 py-2 border border-slate-300 rounded-lg text-sm text-slate-700 hover:bg-slate-50 transition-colors"

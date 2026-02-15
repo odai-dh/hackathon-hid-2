@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import Link from "next/link";
-import { Account, Opportunity, Meeting } from "@/lib/types";
+import { Account, Contact, Opportunity, Meeting } from "@/lib/types";
 
 export default function OpportunityDetailPage() {
   const params = useParams();
@@ -11,6 +11,7 @@ export default function OpportunityDetailPage() {
 
   const [opportunity, setOpportunity] = useState<Opportunity | null>(null);
   const [account, setAccount] = useState<Account | null>(null);
+  const [contacts, setContacts] = useState<Contact[]>([]);
   const [meetings, setMeetings] = useState<Meeting[]>([]);
   const [showBriefing, setShowBriefing] = useState(false);
   const [emailContent, setEmailContent] = useState<string | null>(null);
@@ -23,8 +24,10 @@ export default function OpportunityDetailPage() {
       if (opp) {
         setOpportunity(opp);
         fetch(`/api/accounts`).then(r => r.json()).then((accs: Account[]) => {
-          setAccount(accs.find(a => a.id === opp.accountId) || null);
+          const acc = accs.find(a => a.id === opp.accountId);
+          if (acc) setAccount(acc);
         });
+        fetch(`/api/contacts?accountId=${opp.accountId}`).then(r => r.json()).then(setContacts);
       }
     });
     fetch(`/api/meetings?opportunityId=${opportunityId}`).then(r => r.json()).then(setMeetings);
@@ -60,6 +63,41 @@ export default function OpportunityDetailPage() {
     setEmailLoading(false);
   };
 
+  const typeColors: Record<string, string> = {
+    "Discovery call": "bg-blue-100 text-blue-700",
+    "Demo": "bg-green-100 text-green-700",
+    "Technical deep dive": "bg-indigo-100 text-indigo-700",
+    "On-site workshop": "bg-orange-100 text-orange-700",
+    "Pricing discussion": "bg-amber-100 text-amber-700",
+    "Follow-up email": "bg-slate-100 text-slate-600",
+    "Competitive mention": "bg-purple-100 text-purple-700",
+    "Internal note": "bg-slate-100 text-slate-500",
+    "Requirements review": "bg-cyan-100 text-cyan-700",
+    "Next steps call": "bg-teal-100 text-teal-700",
+    "Compliance Q&A": "bg-rose-100 text-rose-700",
+    "Validation discussion": "bg-pink-100 text-pink-700",
+    "Security review": "bg-red-100 text-red-700",
+    "Scope discussion": "bg-lime-100 text-lime-700",
+    "Procurement note": "bg-gray-100 text-gray-600",
+    "Workshop": "bg-orange-100 text-orange-700",
+    "Risk review": "bg-red-100 text-red-700",
+    "Next steps": "bg-teal-100 text-teal-700",
+    "Stakeholder alignment": "bg-violet-100 text-violet-700",
+    "Solution workshop": "bg-emerald-100 text-emerald-700",
+    "Compliance requirements": "bg-rose-100 text-rose-700",
+    "Pilot planning": "bg-sky-100 text-sky-700",
+    "Technical Q&A": "bg-indigo-100 text-indigo-700",
+    "Value framing": "bg-amber-100 text-amber-700",
+  };
+
+  const influenceColors: Record<string, string> = {
+    "Champion": "bg-green-100 text-green-700",
+    "Economic buyer": "bg-amber-100 text-amber-700",
+    "Technical evaluator": "bg-blue-100 text-blue-700",
+    "Key stakeholder": "bg-purple-100 text-purple-700",
+    "Blocker": "bg-red-100 text-red-700",
+  };
+
   if (!opportunity) {
     return <div className="text-slate-500">Loading...</div>;
   }
@@ -77,6 +115,10 @@ export default function OpportunityDetailPage() {
           <div>
             <h1 className="text-2xl font-bold text-slate-900">{opportunity.name}</h1>
             <p className="text-slate-500 mt-1">{account?.name} &middot; {opportunity.product} &middot; ${opportunity.value.toLocaleString()}</p>
+            <p className="text-sm text-slate-400 mt-1">
+              Stage: <span className="font-medium text-slate-600">{opportunity.stage}</span>
+              {" "}&middot; Close: {opportunity.close_date_est}
+            </p>
           </div>
           <div className="flex gap-3">
             <button
@@ -95,6 +137,54 @@ export default function OpportunityDetailPage() {
         </div>
       </div>
 
+      {/* Opportunity Details */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+        <div className="md:col-span-2">
+          <div className="bg-white border border-slate-200 rounded-xl p-6">
+            <h2 className="text-sm font-semibold text-slate-700 mb-3">Opportunity Details</h2>
+            <p className="text-sm text-slate-600 mb-3">{opportunity.use_case}</p>
+            {opportunity.key_risks.length > 0 && (
+              <div className="mb-3">
+                <span className="text-xs font-medium text-slate-500">Key Risks: </span>
+                {opportunity.key_risks.map((r, i) => (
+                  <span key={i} className="inline-block px-2 py-0.5 bg-red-50 text-red-600 rounded text-xs mr-1">
+                    {r}
+                  </span>
+                ))}
+              </div>
+            )}
+            {opportunity.competitors_mentioned.length > 0 && (
+              <div>
+                <span className="text-xs font-medium text-slate-500">Competitors: </span>
+                {opportunity.competitors_mentioned.map((c, i) => (
+                  <span key={i} className="inline-block px-2 py-0.5 bg-purple-50 text-purple-600 rounded text-xs mr-1">
+                    {c}
+                  </span>
+                ))}
+              </div>
+            )}
+          </div>
+        </div>
+
+        {/* Contacts Panel */}
+        <div className="bg-white border border-slate-200 rounded-xl p-6">
+          <h2 className="text-sm font-semibold text-slate-700 mb-3">Key Contacts</h2>
+          <div className="space-y-3">
+            {contacts.map(c => (
+              <div key={c.id} className="border-b border-slate-100 pb-3 last:border-0 last:pb-0">
+                <p className="text-sm font-medium text-slate-900">{c.name}</p>
+                <p className="text-xs text-slate-500">{c.role} &middot; {c.seniority}</p>
+                <span className={`inline-block mt-1 px-2 py-0.5 rounded-full text-xs font-medium ${influenceColors[c.influence_level] || "bg-slate-100 text-slate-600"}`}>
+                  {c.influence_level}
+                </span>
+                <p className="text-xs text-slate-400 mt-1 italic">{c.notes}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      {/* Briefing Card */}
       {showBriefing && (
         <div className="bg-blue-50 border border-blue-200 rounded-xl p-6 mb-8">
           <h2 className="text-lg font-semibold text-blue-900 mb-4">Briefing Card</h2>
@@ -176,7 +266,8 @@ export default function OpportunityDetailPage() {
         </div>
       )}
 
-      <h2 className="text-lg font-semibold text-slate-900 mb-4">Meeting Timeline</h2>
+      {/* Meeting Timeline */}
+      <h2 className="text-lg font-semibold text-slate-900 mb-4">Activity Timeline ({meetings.length} activities)</h2>
       {meetings.length === 0 ? (
         <div className="text-center py-12 bg-white border border-slate-200 rounded-xl">
           <p className="text-slate-500">No meetings recorded yet.</p>
@@ -193,10 +284,15 @@ export default function OpportunityDetailPage() {
             <div key={meeting.id} className="bg-white border border-slate-200 rounded-xl p-6">
               <div className="flex items-start justify-between mb-3">
                 <div>
-                  <h3 className="font-semibold text-slate-900">{meeting.title}</h3>
-                  <p className="text-sm text-slate-500 mt-0.5">
-                    {new Date(meeting.date).toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" })}
-                    {" "}&middot;{" "}
+                  <div className="flex items-center gap-2 mb-1">
+                    <span className={`px-2.5 py-0.5 rounded-full text-xs font-medium ${typeColors[meeting.type] || "bg-slate-100 text-slate-600"}`}>
+                      {meeting.type}
+                    </span>
+                    <span className="text-sm text-slate-400">
+                      {new Date(meeting.date).toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" })}
+                    </span>
+                  </div>
+                  <p className="text-sm text-slate-500">
                     {meeting.participants.join(", ")}
                   </p>
                 </div>
@@ -213,7 +309,10 @@ export default function OpportunityDetailPage() {
 
               {meeting.insights ? (
                 <div>
-                  <p className="text-sm text-slate-700 mb-3">{meeting.insights.summary}</p>
+                  <p className="text-sm text-slate-700 mb-2">{meeting.insights.summary}</p>
+                  {meeting.outcome && (
+                    <p className="text-xs text-slate-500 mb-3 italic">Outcome: {meeting.outcome}</p>
+                  )}
                   <div className="flex flex-wrap gap-2">
                     {meeting.insights.painPoints.map((p, i) => (
                       <span key={`pp-${i}`} className="px-2 py-1 bg-red-50 text-red-700 rounded-full text-xs">
@@ -236,6 +335,13 @@ export default function OpportunityDetailPage() {
                       </span>
                     ))}
                   </div>
+                  {meeting.tags.length > 0 && (
+                    <div className="mt-2 flex flex-wrap gap-1">
+                      {meeting.tags.map((t, i) => (
+                        <span key={i} className="text-xs text-slate-400">#{t}</span>
+                      ))}
+                    </div>
+                  )}
                   {meeting.insights.actionItems.length > 0 && (
                     <div className="mt-3 pt-3 border-t border-slate-100">
                       <p className="text-xs font-medium text-slate-500 mb-1">Action Items</p>
@@ -267,7 +373,10 @@ export default function OpportunityDetailPage() {
                   )}
                 </div>
               ) : (
-                <p className="text-sm text-slate-400 italic">Insights not yet extracted</p>
+                <div>
+                  <p className="text-sm text-slate-600 mb-2">{meeting.transcriptRaw.slice(0, 200)}...</p>
+                  <p className="text-sm text-amber-600 italic">Insights not yet extracted - this transcript can be processed with AI</p>
+                </div>
               )}
             </div>
           ))}

@@ -1,12 +1,27 @@
 import { readFileSync, writeFileSync } from 'fs';
 import path from 'path';
-import { Account, Opportunity, Meeting } from './types';
+import { Account, Contact, Opportunity, Meeting } from './types';
 
 const dataDir = path.join(process.cwd(), 'src', 'data');
 
 export function getAccounts(): Account[] {
   const raw = readFileSync(path.join(dataDir, 'accounts.json'), 'utf-8');
   return JSON.parse(raw);
+}
+
+export function getAccount(id: string): Account | undefined {
+  return getAccounts().find(a => a.id === id);
+}
+
+export function getContacts(accountId?: string): Contact[] {
+  const raw = readFileSync(path.join(dataDir, 'contacts.json'), 'utf-8');
+  const contacts: Contact[] = JSON.parse(raw);
+  if (accountId) return contacts.filter(c => c.account_id === accountId);
+  return contacts;
+}
+
+export function getContact(id: string): Contact | undefined {
+  return getContacts().find(c => c.id === id);
 }
 
 export function getOpportunities(accountId?: string): Opportunity[] {
@@ -67,8 +82,4 @@ export function saveMeeting(meeting: Meeting): void {
     meetings.push(meeting);
   }
   writeFileSync(path.join(dataDir, 'meetings.json'), JSON.stringify(meetings, null, 2));
-}
-
-export function getAccount(id: string): Account | undefined {
-  return getAccounts().find(a => a.id === id);
 }

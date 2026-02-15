@@ -3,6 +3,22 @@ export interface Account {
   name: string;
   industry: string;
   region: string;
+  company_size: string;
+  customer_tier: string;
+  current_stack: string[];
+  pain_points: string[];
+  primary_products_of_interest: string[];
+}
+
+export interface Contact {
+  id: string;
+  account_id: string;
+  name: string;
+  role: string;
+  seniority: string;
+  email: string;
+  influence_level: string;
+  notes: string;
 }
 
 export interface Opportunity {
@@ -12,6 +28,11 @@ export interface Opportunity {
   product: string;
   stage: string;
   value: number;
+  use_case: string;
+  competitors_mentioned: string[];
+  key_risks: string[];
+  close_date_est: string;
+  last_updated: string;
 }
 
 export interface Meeting {
@@ -20,8 +41,12 @@ export interface Meeting {
   accountId: string;
   date: string;
   title: string;
+  type: string;
   participants: string[];
+  participantContactIds: string[];
   transcriptRaw: string;
+  outcome: string;
+  tags: string[];
   insights: ExtractedInsights | null;
 }
 

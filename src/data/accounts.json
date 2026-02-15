@@ -1,32 +1,90 @@
 [
   {
-    "id": "acc-001",
-    "name": "Nordea Bank",
-    "industry": "Finance",
-    "region": "Nordics"
-  },
-  {
-    "id": "acc-002",
-    "name": "Volvo Group",
-    "industry": "Automotive",
-    "region": "Nordics"
-  },
-  {
-    "id": "acc-003",
-    "name": "Siemens AG",
+    "id": "ACC-PIAM-001",
+    "name": "NordicFab Manufacturing Group",
     "industry": "Manufacturing",
-    "region": "DACH"
+    "region": "Nordics",
+    "company_size": "Enterprise",
+    "customer_tier": "Tier 1",
+    "current_stack": ["Microsoft Entra ID", "LenelS2", "ServiceNow"],
+    "pain_points": ["Contractor management", "Audit readiness", "Badge issuance delays"],
+    "primary_products_of_interest": ["PROD-PIAM-VM"]
   },
   {
-    "id": "acc-004",
-    "name": "NHS Digital",
-    "industry": "Healthcare",
-    "region": "UK"
+    "id": "ACC-PIAM-002",
+    "name": "SkandiaPort Logistics",
+    "industry": "Transportation & Logistics",
+    "region": "Nordics",
+    "company_size": "Mid-market",
+    "customer_tier": "Tier 2",
+    "current_stack": ["Okta", "Genetec", "SharePoint"],
+    "pain_points": ["High visitor volume", "Security incident reporting", "Multi-site consistency"],
+    "primary_products_of_interest": ["PROD-PIAM-VM"]
   },
   {
-    "id": "acc-005",
-    "name": "Airbus SE",
-    "industry": "Aerospace",
-    "region": "EU"
+    "id": "ACC-PIAM-003",
+    "name": "Stellaris Clinical Research Centers",
+    "industry": "Healthcare & Life Sciences",
+    "region": "EU",
+    "company_size": "Enterprise",
+    "customer_tier": "Tier 1",
+    "current_stack": ["Azure AD", "OnGuard", "GxP document controls"],
+    "pain_points": ["Compliance evidence", "Vendor access control", "PII handling"],
+    "primary_products_of_interest": ["PROD-PIAM-VM"]
+  },
+  {
+    "id": "ACC-PIAM-004",
+    "name": "CivicWorks Municipal Facilities",
+    "industry": "Public Sector",
+    "region": "EU",
+    "company_size": "Mid-market",
+    "customer_tier": "Tier 3",
+    "current_stack": ["Active Directory", "Legacy badge printing", "Email-based approvals"],
+    "pain_points": ["Manual approvals", "Security desk workload", "Accessibility and ease of use"],
+    "primary_products_of_interest": ["PROD-PIAM-VM"]
+  },
+  {
+    "id": "ACC-PKI-001",
+    "name": "Arctiq Energy Utilities",
+    "industry": "Energy & Utilities",
+    "region": "Nordics",
+    "company_size": "Enterprise",
+    "customer_tier": "Tier 1",
+    "current_stack": ["Microsoft PKI (AD CS)", "Entra ID", "SCADA device estate"],
+    "pain_points": ["Certificate lifecycle chaos", "Outages from expired certs", "Audit and key management"],
+    "primary_products_of_interest": ["PROD-PKI-AAS"]
+  },
+  {
+    "id": "ACC-PKI-002",
+    "name": "FinTrust Digital Bank",
+    "industry": "Financial Services",
+    "region": "EU",
+    "company_size": "Enterprise",
+    "customer_tier": "Tier 1",
+    "current_stack": ["HSM (Thales)", "Kubernetes", "Custom internal CA"],
+    "pain_points": ["Policy compliance", "DevOps certificate automation", "Separation of duties"],
+    "primary_products_of_interest": ["PROD-PKI-AAS"]
+  },
+  {
+    "id": "ACC-PKI-003",
+    "name": "AeroFleet Avionics Supplier",
+    "industry": "Aerospace & Defense",
+    "region": "EU",
+    "company_size": "Mid-market",
+    "customer_tier": "Tier 2",
+    "current_stack": ["On-prem CA", "Air-gapped environments", "Windows + embedded devices"],
+    "pain_points": ["Hybrid deployment", "Offline constraints", "Supplier compliance requirements"],
+    "primary_products_of_interest": ["PROD-PKI-AAS"]
+  },
+  {
+    "id": "ACC-PKI-004",
+    "name": "MedTech IoT Devices AB",
+    "industry": "Healthcare Technology",
+    "region": "Nordics",
+    "company_size": "SMB",
+    "customer_tier": "Tier 3",
+    "current_stack": ["AWS IoT", "Device provisioning pipeline", "Basic TLS cert handling"],
+    "pain_points": ["Scale and automation", "Device identity", "Customer security questionnaires"],
+    "primary_products_of_interest": ["PROD-PKI-AAS"]
   }
 ]

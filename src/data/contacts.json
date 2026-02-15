@@ -1,0 +1,162 @@
+[
+  {
+    "id": "CON-PIAM-001-A",
+    "account_id": "ACC-PIAM-001",
+    "name": "Elin Sundberg",
+    "role": "Head of Physical Security",
+    "seniority": "Director",
+    "email": "elin.sundberg@nordicfab.example",
+    "influence_level": "Champion",
+    "notes": "Owns site security ops, wants fewer desk bottlenecks."
+  },
+  {
+    "id": "CON-PIAM-001-B",
+    "account_id": "ACC-PIAM-001",
+    "name": "Mikael Roos",
+    "role": "IAM Architect",
+    "seniority": "Senior IC",
+    "email": "mikael.roos@nordicfab.example",
+    "influence_level": "Technical evaluator",
+    "notes": "Cares about integrations, data retention, and audit trails."
+  },
+  {
+    "id": "CON-PIAM-002-A",
+    "account_id": "ACC-PIAM-002",
+    "name": "Sara Lind",
+    "role": "Security Operations Manager",
+    "seniority": "Manager",
+    "email": "sara.lind@skandiaport.example",
+    "influence_level": "Champion",
+    "notes": "Wants standardized processes across 6 sites."
+  },
+  {
+    "id": "CON-PIAM-002-B",
+    "account_id": "ACC-PIAM-002",
+    "name": "Jonas Hult",
+    "role": "Facilities Director",
+    "seniority": "Director",
+    "email": "jonas.hult@skandiaport.example",
+    "influence_level": "Economic buyer",
+    "notes": "Cares about cost, desk staffing, and incident reporting."
+  },
+  {
+    "id": "CON-PIAM-003-A",
+    "account_id": "ACC-PIAM-003",
+    "name": "Dr. Nina Keller",
+    "role": "Compliance Lead (GxP)",
+    "seniority": "Director",
+    "email": "nina.keller@stellariscrc.example",
+    "influence_level": "Key stakeholder",
+    "notes": "Needs evidence for audits, wary of PII storage."
+  },
+  {
+    "id": "CON-PIAM-003-B",
+    "account_id": "ACC-PIAM-003",
+    "name": "Andre Varga",
+    "role": "IT Operations Manager",
+    "seniority": "Manager",
+    "email": "andre.varga@stellariscrc.example",
+    "influence_level": "Technical evaluator",
+    "notes": "Wants SSO, provisioning, minimal admin overhead."
+  },
+  {
+    "id": "CON-PIAM-004-A",
+    "account_id": "ACC-PIAM-004",
+    "name": "Karin Holm",
+    "role": "Administrative Services Manager",
+    "seniority": "Manager",
+    "email": "karin.holm@civicworks.example",
+    "influence_level": "Champion",
+    "notes": "Feels pain of manual approvals daily."
+  },
+  {
+    "id": "CON-PIAM-004-B",
+    "account_id": "ACC-PIAM-004",
+    "name": "Oskar Broman",
+    "role": "IT Security Officer",
+    "seniority": "Senior IC",
+    "email": "oskar.broman@civicworks.example",
+    "influence_level": "Blocker",
+    "notes": "Skeptical about cloud, asks about data residency constantly."
+  },
+  {
+    "id": "CON-PKI-001-A",
+    "account_id": "ACC-PKI-001",
+    "name": "Hanna Berg",
+    "role": "OT Security Lead",
+    "seniority": "Director",
+    "email": "hanna.berg@arctiqenergy.example",
+    "influence_level": "Champion",
+    "notes": "Keeps getting burned by certificate expirations."
+  },
+  {
+    "id": "CON-PKI-001-B",
+    "account_id": "ACC-PKI-001",
+    "name": "Petter Dahl",
+    "role": "Infrastructure Manager",
+    "seniority": "Manager",
+    "email": "petter.dahl@arctiqenergy.example",
+    "influence_level": "Technical evaluator",
+    "notes": "Wants tooling, APIs, monitoring, and clear ownership model."
+  },
+  {
+    "id": "CON-PKI-002-A",
+    "account_id": "ACC-PKI-002",
+    "name": "Lea Moreau",
+    "role": "Head of Platform Engineering",
+    "seniority": "Director",
+    "email": "lea.moreau@fintrust.example",
+    "influence_level": "Champion",
+    "notes": "Wants cert automation in CI/CD and Kubernetes."
+  },
+  {
+    "id": "CON-PKI-002-B",
+    "account_id": "ACC-PKI-002",
+    "name": "Marco Stein",
+    "role": "Risk & Compliance",
+    "seniority": "Director",
+    "email": "marco.stein@fintrust.example",
+    "influence_level": "Economic buyer",
+    "notes": "Cares about controls, reporting, and audit evidence."
+  },
+  {
+    "id": "CON-PKI-003-A",
+    "account_id": "ACC-PKI-003",
+    "name": "Sofia Ilic",
+    "role": "Program Manager, Supplier Security",
+    "seniority": "Manager",
+    "email": "sofia.ilic@aerofleet.example",
+    "influence_level": "Key stakeholder",
+    "notes": "Needs compliance documentation for primes."
+  },
+  {
+    "id": "CON-PKI-003-B",
+    "account_id": "ACC-PKI-003",
+    "name": "Tomas Novak",
+    "role": "Security Engineer",
+    "seniority": "Senior IC",
+    "email": "tomas.novak@aerofleet.example",
+    "influence_level": "Technical evaluator",
+    "notes": "Wants hybrid and offline story, hates vendor fluff."
+  },
+  {
+    "id": "CON-PKI-004-A",
+    "account_id": "ACC-PKI-004",
+    "name": "Amir Saleh",
+    "role": "CTO",
+    "seniority": "Executive",
+    "email": "amir.saleh@medtechiot.example",
+    "influence_level": "Economic buyer",
+    "notes": "Small team, wants managed service, minimal ops."
+  },
+  {
+    "id": "CON-PKI-004-B",
+    "account_id": "ACC-PKI-004",
+    "name": "Lina Sjogren",
+    "role": "Lead Backend Engineer",
+    "seniority": "Senior IC",
+    "email": "lina.sjogren@medtechiot.example",
+    "influence_level": "Champion",
+    "notes": "Owns device provisioning pipeline, wants APIs and SDKs."
+  }
+]

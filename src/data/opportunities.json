@@ -1,66 +1,106 @@
 [
   {
-    "id": "opp-001",
-    "accountId": "acc-001",
-    "name": "Nordea HQ Visitor Management",
+    "id": "OPP-PIAM-001",
+    "accountId": "ACC-PIAM-001",
+    "name": "NordicFab - Contractor and Visitor Modernization",
     "product": "PIAM Visitor Management",
-    "stage": "Negotiation",
-    "value": 200000
+    "stage": "Evaluation",
+    "value": 180000,
+    "use_case": "Reduce contractor onboarding time, improve audit trail, integrate with access control.",
+    "competitors_mentioned": ["Envoy", "Proxyclick"],
+    "key_risks": ["Integration complexity", "Security desk adoption"],
+    "close_date_est": "2026-04-30",
+    "last_updated": "2026-02-05"
   },
   {
-    "id": "opp-002",
-    "accountId": "acc-001",
-    "name": "Nordea PKI Rollout",
+    "id": "OPP-PIAM-002",
+    "accountId": "ACC-PIAM-002",
+    "name": "SkandiaPort - Multi-site Visitor Standardization",
+    "product": "PIAM Visitor Management",
+    "stage": "Discovery",
+    "value": 95000,
+    "use_case": "Standard visitor process across sites, faster approvals, better incident traceability.",
+    "competitors_mentioned": ["Sign In App"],
+    "key_risks": ["Budget approval", "Change management across sites"],
+    "close_date_est": "2026-05-15",
+    "last_updated": "2026-02-06"
+  },
+  {
+    "id": "OPP-PIAM-003",
+    "accountId": "ACC-PIAM-003",
+    "name": "Stellaris CRC - Compliance-first Visitor Workflow",
+    "product": "PIAM Visitor Management",
+    "stage": "Evaluation",
+    "value": 220000,
+    "use_case": "Vendor and visitor management aligned to GxP, strong reporting and audit exports.",
+    "competitors_mentioned": ["Proxyclick"],
+    "key_risks": ["PII/data residency", "Validation requirements"],
+    "close_date_est": "2026-06-20",
+    "last_updated": "2026-02-04"
+  },
+  {
+    "id": "OPP-PIAM-004",
+    "accountId": "ACC-PIAM-004",
+    "name": "CivicWorks - Replace Manual Visitor Approvals",
+    "product": "PIAM Visitor Management",
+    "stage": "Discovery",
+    "value": 45000,
+    "use_case": "Digitize approvals, reduce front desk load, simple user experience.",
+    "competitors_mentioned": [],
+    "key_risks": ["Cloud skepticism", "Procurement timelines"],
+    "close_date_est": "2026-05-01",
+    "last_updated": "2026-02-03"
+  },
+  {
+    "id": "OPP-PKI-001",
+    "accountId": "ACC-PKI-001",
+    "name": "Arctiq Energy - Certificate Lifecycle Stabilization",
     "product": "PKI-as-a-Service",
-    "stage": "Prospecting",
-    "value": 95000
+    "stage": "Evaluation",
+    "value": 300000,
+    "use_case": "Automate cert renewal, reduce outages, governance for OT devices.",
+    "competitors_mentioned": ["Venafi", "DigiCert managed PKI"],
+    "key_risks": ["OT constraints", "Ownership between IT and OT"],
+    "close_date_est": "2026-06-10",
+    "last_updated": "2026-02-06"
   },
   {
-    "id": "opp-003",
-    "accountId": "acc-002",
-    "name": "Volvo Factory Access Control",
-    "product": "PIAM Visitor Management",
-    "stage": "Qualification",
-    "value": 250000
-  },
-  {
-    "id": "opp-004",
-    "accountId": "acc-003",
-    "name": "Siemens Campus Security Upgrade",
-    "product": "PIAM Visitor Management",
-    "stage": "Proposal",
-    "value": 320000
-  },
-  {
-    "id": "opp-005",
-    "accountId": "acc-003",
-    "name": "Siemens Device Certificate Management",
+    "id": "OPP-PKI-002",
+    "accountId": "ACC-PKI-002",
+    "name": "FinTrust - Managed PKI Controls and Automation",
     "product": "PKI-as-a-Service",
-    "stage": "Negotiation",
-    "value": 145000
+    "stage": "Discovery",
+    "value": 420000,
+    "use_case": "Policy-based issuance, integration with HSM, DevOps automation.",
+    "competitors_mentioned": ["Venafi", "Sectigo"],
+    "key_risks": ["Compliance sign-off", "Integration with existing HSM"],
+    "close_date_est": "2026-07-01",
+    "last_updated": "2026-02-05"
   },
   {
-    "id": "opp-006",
-    "accountId": "acc-004",
-    "name": "NHS Visitor & Contractor Management",
-    "product": "PIAM Visitor Management",
-    "stage": "Prospecting",
-    "value": 200000
-  },
-  {
-    "id": "opp-007",
-    "accountId": "acc-005",
-    "name": "Airbus Supplier Access Platform",
-    "product": "PIAM Visitor Management",
-    "stage": "Qualification",
-    "value": 410000
-  },
-  {
-    "id": "opp-008",
-    "accountId": "acc-005",
-    "name": "Airbus PKI Infrastructure",
+    "id": "OPP-PKI-003",
+    "accountId": "ACC-PKI-003",
+    "name": "AeroFleet - Hybrid PKI for Constrained Environments",
     "product": "PKI-as-a-Service",
-    "stage": "Proposal",
-    "value": 275000
+    "stage": "Evaluation",
+    "value": 160000,
+    "use_case": "Meet supplier compliance requirements, support offline workflows, reduce CA admin burden.",
+    "competitors_mentioned": ["Microsoft AD CS", "EJBCA"],
+    "key_risks": ["Air-gapped needs", "Procurement complexity"],
+    "close_date_est": "2026-05-30",
+    "last_updated": "2026-02-02"
+  },
+  {
+    "id": "OPP-PKI-004",
+    "accountId": "ACC-PKI-004",
+    "name": "MedTech IoT - Device Identity at Scale",
+    "product": "PKI-as-a-Service",
+    "stage": "Discovery",
+    "value": 85000,
+    "use_case": "Device certificates for onboarding and secure updates, reduce security questionnaire friction.",
+    "competitors_mentioned": ["DigiCert device trust"],
+    "key_risks": ["Team bandwidth", "Time to value"],
+    "close_date_est": "2026-05-25",
+    "last_updated": "2026-02-06"
   }
 ]
